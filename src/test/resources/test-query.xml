@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<kumva xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://kumva.ijuru.com">
+	<entries query="test">
+		<entry id="3964">
+			<revision number="1" status="accepted" wordclass="n" nounclasses="7,8" unverified="false">
+				<prefix>iki</prefix>
+				<lemma>zamini</lemma>
+				<modifier>ibi-</modifier>
+				<pronunciation></pronunciation>
+				<meanings>
+					<meaning flags="">examination, exam, test, evaluation</meaning>
+				</meanings>
+				<comment></comment>
+				<tags>
+					<relationship name="form">
+						<tag lang="rw" text="ibizamini" />
+						<tag lang="rw" text="ikizamini" />
+					</relationship>
+					<relationship name="variant">
+						<tag lang="rw" text="ikizami" />
+					</relationship>
+					<relationship name="meaning">
+						<tag lang="en" text="examination" />
+						<tag lang="en" text="exam" />
+						<tag lang="en" text="test" />
+						<tag lang="en" text="evaluation" />
+					</relationship>
+					<relationship name="root">
+						<tag lang="fr" text="examen" />
+					</relationship>
+					<relationship name="category"></relationship>
+				</tags>
+				<examples></examples>
+			</revision>
+		</entry>
+		<entry id="1222">
+			<revision number="1" status="accepted" wordclass="v" nounclasses="" unverified="false">
+				<prefix>gu</prefix>
+				<lemma>suzuma</lemma>
+				<modifier>-mye</modifier>
+				<pronunciation></pronunciation>
+				<meanings>
+					<meaning flags="">to examine, scrutinize, test</meaning>
+				</meanings>
+				<comment></comment>
+				<tags>
+					<relationship name="form">
+						<tag lang="rw" text="-suzumye" />
+						<tag lang="rw" text="gusuzuma" />
+						<tag lang="rw" text="-suzuma" />
+					</relationship>
+					<relationship name="variant"></relationship>
+					<relationship name="meaning">
+						<tag lang="en" text="examine" />
+						<tag lang="en" text="scrutinize" />
+						<tag lang="en" text="test" />
+					</relationship>
+					<relationship name="root"></relationship>
+					<relationship name="category"></relationship>
+				</tags>
+				<examples></examples>
+			</revision>
+		</entry>
+		<entry id="1223">
+			<revision number="1" status="accepted" wordclass="v" nounclasses="" unverified="false">
+				<prefix>gu</prefix>
+				<lemma>suzumwa</lemma>
+				<modifier>-mwe</modifier>
+				<pronunciation></pronunciation>
+				<meanings>
+					<meaning flags="">to be examined, scrutinized, tested</meaning>
+				</meanings>
+				<comment></comment>
+				<tags>
+					<relationship name="form">
+						<tag lang="rw" text="gusuzumwa" />
+						<tag lang="rw" text="-suzumwa" />
+						<tag lang="rw" text="-suzumwe" />
+					</relationship>
+					<relationship name="variant"></relationship>
+					<relationship name="meaning">
+						<tag lang="en" text="examined" />
+						<tag lang="en" text="scrutinized" />
+						<tag lang="en" text="tested" />
+					</relationship>
+					<relationship name="root">
+						<tag lang="rw" text="gusuzuma" />
+					</relationship>
+					<relationship name="category"></relationship>
+				</tags>
+				<examples></examples>
+			</revision>
+		</entry>
+	</entries>
+</kumva>
