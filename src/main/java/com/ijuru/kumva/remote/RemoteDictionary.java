@@ -17,8 +17,9 @@
  * along with Kumva. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.ijuru.kumva.site;
+package com.ijuru.kumva.remote;
 
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -26,7 +27,7 @@ import java.net.URLEncoder;
 /**
  * An online Kumva dictionary
  */
-public class Dictionary {
+public class RemoteDictionary {
 	
 	private String url;
 	private String name;
@@ -38,7 +39,7 @@ public class Dictionary {
 	 * Constructs a dictionary
 	 * @param url the URL
 	 */
-	public Dictionary(String url) {
+	public RemoteDictionary(String url) {
 		this.url = url;
 	}
 	
@@ -47,7 +48,7 @@ public class Dictionary {
 	 * @param url the base URL
 	 * @param name the name
 	 */
-	public Dictionary(String url, String name, String kumvaVersion, String definitionLang, String meaningLang) {
+	public RemoteDictionary(String url, String name, String kumvaVersion, String definitionLang, String meaningLang) {
 		this.url = url;
 		this.name = name;
 		this.kumvaVersion = kumvaVersion;
@@ -149,7 +150,11 @@ public class Dictionary {
 	 * @return the URL
 	 */
 	public URL createQueryURL(String query, int limit, String ref) {
-		return createURL("meta/query.xml.php?q=" + URLEncoder.encode(query) + "&limit=" + limit + "&entries=1&ref=" + ref);
+		try {
+			return createURL("meta/query.xml.php?q=" + URLEncoder.encode(query, "UTF-8") + "&limit=" + limit + "&entries=1&ref=" + ref);
+		} catch (UnsupportedEncodingException e) {
+			return null;
+		}
 	}
 	
 	/**
@@ -158,7 +163,11 @@ public class Dictionary {
 	 * @return the URL
 	 */
 	public URL createSuggestionsURL(String query) {
-		return createURL("meta/suggest.php?term=" + URLEncoder.encode(query) + "&format=jquery");
+		try {
+			return createURL("meta/suggest.php?term=" + URLEncoder.encode(query, "UTF-8") + "&format=jquery");
+		} catch (UnsupportedEncodingException e) {
+			return null;
+		}
 	}
 	
 	/**
