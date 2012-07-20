@@ -19,6 +19,7 @@
 
 package com.ijuru.kumva.remote;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
@@ -26,10 +27,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import com.ijuru.kumva.Entry;
 import com.ijuru.kumva.search.Search;
@@ -57,38 +60,36 @@ public class RemoteSearch implements EntryParsedListener, Search {
 	}
 	
 	/**
+	 * @throws SAXException 
+	 * @throws ParserConfigurationException 
+	 * @throws IOException 
 	 * @see com.ijuru.kumva.search.Search#execute(String, int, String)
 	 */
-	public SearchResult execute(String query, int limit, String ref) {
-		try {
-			SAXParserFactory factory = SAXParserFactory.newInstance();
-			SAXParser parser = factory.newSAXParser();
-			EntriesXMLHandler handler = new EntriesXMLHandler(this);
-			
-			// Create URL connection to the XML API
-			URL url = dictionary.createQueryURL(query, limit, ref);
-			URLConnection connection = url.openConnection();
-			
-			// Request GZIP compression and specify timeout
-			connection.setRequestProperty("Accept-Encoding", "gzip");
-			connection.setConnectTimeout(timeout);
-			connection.setReadTimeout(timeout);
-			
-			// Detect GZIP compression if used
-			InputStream stream = connection.getInputStream();
-			if ("gzip".equals(connection.getContentEncoding()))
-				stream = new GZIPInputStream(stream);
-			
-			// Start SAX parser
-			InputSource source = new InputSource(stream);
-			parser.parse(source, handler);
-			stream.close();
-			
-			return new SearchResult(handler.getSuggestion(), results);
-		}
-		catch (Exception ex) {
-			return null;
-		}
+	public SearchResult execute(String query, int limit, String ref) throws ParserConfigurationException, SAXException, IOException {
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+		SAXParser parser = factory.newSAXParser();
+		EntriesXMLHandler handler = new EntriesXMLHandler(this);
+		
+		// Create URL connection to the XML API
+		URL url = dictionary.createQueryURL(query, limit, ref);
+		URLConnection connection = url.openConnection();
+		
+		// Request GZIP compression and specify timeout
+		connection.setRequestProperty("Accept-Encoding", "gzip");
+		connection.setConnectTimeout(timeout);
+		connection.setReadTimeout(timeout);
+		
+		// Detect GZIP compression if used
+		InputStream stream = connection.getInputStream();
+		if ("gzip".equals(connection.getContentEncoding()))
+			stream = new GZIPInputStream(stream);
+		
+		// Start SAX parser
+		InputSource source = new InputSource(stream);
+		parser.parse(source, handler);
+		stream.close();
+		
+		return new SearchResult(handler.getSuggestion(), results);
 	}
 
 	/**
@@ -97,4 +98,6 @@ public class RemoteSearch implements EntryParsedListener, Search {
 	public void entryParsed(Entry entry) {
 		results.add(entry);
 	}
+	
+	
 }

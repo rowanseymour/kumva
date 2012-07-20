@@ -31,5 +31,5 @@ public interface Search {
 	 * @param ref the application reference
 	 * @return the results
 	 */
-	public SearchResult execute(String query, int limit, String ref);
+	public SearchResult execute(String query, int limit, String ref) throws Exception;
 }
