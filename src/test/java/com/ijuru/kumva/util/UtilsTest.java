@@ -29,7 +29,7 @@ import com.ijuru.kumva.util.Utils;
 /**
  * Test case for Util class
  */
-public class UtilsTest  extends TestCase {
+public class UtilsTest extends TestCase {
 	
 	public void test_isEmpty() {
 		assertTrue(Utils.isEmpty(null));
@@ -41,14 +41,6 @@ public class UtilsTest  extends TestCase {
 	public void test_capitalize() {
 		assertEquals("", Utils.capitalize(""));
 		assertEquals("Test", Utils.capitalize("test"));
-	}
-	
-	public void test_parseInteger() {
-		assertNull(Utils.parseInteger(""));
-		assertNull(Utils.parseInteger("x"));
-		assertNull(Utils.parseInteger("1.5"));
-		assertEquals(new Integer(-123), Utils.parseInteger("-123"));
-		assertEquals(new Integer(456), Utils.parseInteger("456"));
 	}
 	
 	public void test_getLanguageName() {
@@ -95,10 +87,16 @@ public class UtilsTest  extends TestCase {
 		assertEquals(new Integer(123), ints1.get(0));
 		assertEquals(1, ints1.size());
 		
-		List<Integer> ints2 = Utils.parseCSVIntegers("1, -2,x,3");
+		List<Integer> ints2 = Utils.parseCSVIntegers("1, -2,,3");
 		assertEquals(new Integer(1), ints2.get(0));
 		assertEquals(new Integer(-2), ints2.get(1));
 		assertEquals(new Integer(3), ints2.get(2));
 		assertEquals(3, ints2.size());
+		
+		try {
+			Utils.parseCSVIntegers("1, -2,x,3");
+			fail("Exception should have been thrown");
+		}
+		catch (NumberFormatException ex) {}
 	}
 }

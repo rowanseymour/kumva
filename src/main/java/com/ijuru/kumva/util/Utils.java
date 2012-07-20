@@ -52,20 +52,6 @@ public class Utils {
 	}
 	
 	/**
-	 * Parses a string into an integer
-	 * @param val the string
-	 * @return the integer or null if not a valid integer
-	 */
-	public static Integer parseInteger(String val) {
-		try {
-			return Integer.parseInt(val);
-		}
-		catch (NumberFormatException ex) {
-			return null;
-		}
-	}
-	
-	/**
 	 * Converts a ISO-639 language code to a language name
 	 * @param code the code
 	 * @return the name
@@ -120,7 +106,7 @@ public class Utils {
 		for (String val : vals) {
 			String v = val.trim();
 			if (v.length() > 0) {
-				Integer n = parseInteger(v);
+				Integer n = Integer.parseInt(v);
 				if (n != null)
 					ints.add(n);
 			}

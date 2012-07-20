@@ -29,17 +29,53 @@ import java.util.Map;
  */
 public class Revision {
 
+	private int number;
+	private RevisionStatus status;
 	private String wordClass;
 	private List<Integer> nounClasses = new ArrayList<Integer>();
 	private String prefix;
 	private String lemma;
 	private String modifier;
 	private String pronunciation;
+	private boolean unverified;
+	
 	private List<Meaning> meanings = new ArrayList<Meaning>();
 	private String comment;
 	private Map<String, List<Tag>> tags = new HashMap<String, List<Tag>>();
 	private List<Example> examples = new ArrayList<Example>();
 	
+	/**
+	 * Gets the revision number
+	 * @return the number
+	 */
+	public int getNumber() {
+		return number;
+	}
+
+	/**
+	 * Sets the revision number
+	 * @param number the number
+	 */
+	public void setNumber(int number) {
+		this.number = number;
+	}
+
+	/**
+	 * Gets the revision status
+	 * @return the status
+	 */
+	public RevisionStatus getStatus() {
+		return status;
+	}
+
+	/**
+	 * Sets the revision status
+	 * @param status the status to set
+	 */
+	public void setStatus(RevisionStatus status) {
+		this.status = status;
+	}
+
 	/**
 	 * Gets the word class
 	 * @return the wordClass
@@ -136,6 +172,22 @@ public class Revision {
 		this.pronunciation = pronunciation;
 	}
 	
+	/**
+	 * Gets if unverified
+	 * @return the unverified
+	 */
+	public boolean isUnverified() {
+		return unverified;
+	}
+
+	/**
+	 * Sets if unverified
+	 * @param unverified the unverified to set
+	 */
+	public void setUnverified(boolean unverified) {
+		this.unverified = unverified;
+	}
+
 	/**
 	 * Gets the meanings
 	 * @return the meanings

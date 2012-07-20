@@ -31,7 +31,12 @@
 					</relationship>
 					<relationship name="category"></relationship>
 				</tags>
-				<examples></examples>
+				<examples>
+					<example>
+						<usage>mfite ikizami</usage>
+						<meaning>I have an exam</meaning>
+					</example>
+				</examples>
 			</revision>
 		</entry>
 		<entry id="1222">

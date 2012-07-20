@@ -37,6 +37,7 @@ import junit.framework.TestCase;
 import com.ijuru.kumva.Entry;
 import com.ijuru.kumva.Meaning;
 import com.ijuru.kumva.Revision;
+import com.ijuru.kumva.RevisionStatus;
 
 /**
  * Test case for EntriesXMLHandler class
@@ -62,14 +63,23 @@ public class EntriesXMLHandlerTest extends TestCase {
 		parser.parse(source, handler);
 		stream.close();
 		
+		// Check entries attributes
 		assertEquals("xtest", handler.getQuery());
 		assertEquals("test", handler.getSuggestion());
 		assertEquals(3, entries.size());
 		assertEquals(1, entries.get(0).getRevisions().size());
 		
-		Revision revision1 = entries.get(0).getRevisions().get(0);
+		// Check first entry
+		Entry entry1 = entries.get(0);
+		assertEquals(new Integer(3964), entry1.getEntryId());
+		
+		// Check first revision properties
+		Revision revision1 = entry1.getRevisions().get(0);
+		assertEquals(1, revision1.getNumber());
+		assertEquals(RevisionStatus.ACCEPTED, revision1.getStatus());
 		assertEquals("n", revision1.getWordClass());
 		assertEquals(list(7, 8), revision1.getNounClasses());
+		assertEquals(false, revision1.isUnverified());
 		assertEquals("iki", revision1.getPrefix());
 		assertEquals("zamini", revision1.getLemma());
 		assertEquals("ibi-", revision1.getModifier());
@@ -110,6 +120,11 @@ public class EntriesXMLHandlerTest extends TestCase {
 		assertEquals(1, revision1.getTags("root").size());
 		assertEquals("fr", revision1.getTags("root").get(0).getLang());
 		assertEquals("examen", revision1.getTags("root").get(0).getText());
+		
+		// Check examples
+		assertEquals(1, revision1.getExamples().size());
+		assertEquals("mfite ikizami", revision1.getExamples().get(0).getUsage());
+		assertEquals("I have an exam", revision1.getExamples().get(0).getMeaning());
 	}
 	
 	/**

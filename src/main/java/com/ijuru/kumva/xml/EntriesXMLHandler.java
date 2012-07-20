@@ -30,6 +30,7 @@ import com.ijuru.kumva.Entry;
 import com.ijuru.kumva.Example;
 import com.ijuru.kumva.Meaning;
 import com.ijuru.kumva.Revision;
+import com.ijuru.kumva.RevisionStatus;
 import com.ijuru.kumva.Tag;
 import com.ijuru.kumva.util.Utils;
 
@@ -63,7 +64,7 @@ public class EntriesXMLHandler extends DefaultHandler {
 	 * @see org.xml.sax.helpers.DefaultHandler#startElement(String, String, String, Attributes)
 	 */
 	@Override
-	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException, NumberFormatException {
 		String element = Utils.isEmpty(localName) ? qName : localName;
 		
 		if (element.equals("entries")) {
@@ -72,24 +73,35 @@ public class EntriesXMLHandler extends DefaultHandler {
 		}
 		else if (element.equals("entry")) {
 			curEntry = new Entry();
-		} else if (element.equals("revision")) {
+			curEntry.setEntryId(Integer.parseInt(attributes.getValue("id")));
+		} 
+		else if (element.equals("revision")) {
 			curRevision = new Revision();
+			curRevision.setNumber(Integer.parseInt(attributes.getValue("number")));
+			curRevision.setStatus(RevisionStatus.parse(attributes.getValue("status")));
 			curRevision.setWordClass(attributes.getValue("wordclass"));
 			curRevision.setNounClasses(Utils.parseCSVIntegers(attributes.getValue("nounclasses")));
-		} else if (element.equals("meanings"))
+			curRevision.setUnverified(Boolean.parseBoolean(attributes.getValue("unverified")));
+		}
+		else if (element.equals("meanings")) {
 			inMeanings = true;
+		}
 		else if (element.equals("meaning")) {
 			int flags = Meaning.parseFlags(attributes.getValue("flags"));
 			curMeaning = new Meaning();
 			curMeaning.setFlags(flags);
-		} else if (element.equals("relationship")) {
+		}
+		else if (element.equals("relationship")) {
 			curRelationship = attributes.getValue("name");
 			curTags = new ArrayList<Tag>();
-		} else if (element.equals("tag")) {
+		}
+		else if (element.equals("tag")) {
 			curTags.add(new Tag(attributes.getValue("lang"), attributes.getValue("text")));
-		} else if (element.equals("example")) {
+		}
+		else if (element.equals("example")) {
 			curExample = new Example();
-		} /*else if (localName.equals("media")) {
+		} 
+		/*else if (localName.equals("media")) {
 			if ("audio".equals(attributes.getValue("type"))) {
 				curDefinition.setAudioURL(attributes.getValue("url"));
 			}

@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class Entry {
 
-	private Integer entryId;
+	private Integer entryId = null;
 	private List<Revision> revisions = new ArrayList<Revision>();
 
 	/**
