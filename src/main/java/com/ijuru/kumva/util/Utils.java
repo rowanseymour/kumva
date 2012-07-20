@@ -112,6 +112,7 @@ public class Utils {
 	 * Parses a CSV string into a list of integers
 	 * @param csv the string
 	 * @return the list of integers
+	 * @throws NumberFormatException if one of the numbers is invalid
 	 */
 	public static List<Integer> parseCSVIntegers(String csv) {
 		String[] vals = csv.split(",");

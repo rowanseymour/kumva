@@ -22,12 +22,12 @@ package com.ijuru.kumva.xml;
 import com.ijuru.kumva.Entry;
 
 /**
- * Listener class for definition XML parsing
+ * Listener class for entry XML parsing
  */
-public interface EntryListener {
+public interface EntryParsedListener {
 	/**
-	 * Parser has completed the parsing of a definition
-	 * @param definition the definition
+	 * Parser has completed the parsing of an entry
+	 * @param entry the entry
 	 */
-	public void found(Entry definition);
+	public void entryParsed(Entry entry);
 }

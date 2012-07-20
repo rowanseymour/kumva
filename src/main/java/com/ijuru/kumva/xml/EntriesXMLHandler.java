@@ -34,13 +34,12 @@ import com.ijuru.kumva.Tag;
 import com.ijuru.kumva.util.Utils;
 
 /**
- * SAX handler for Kumva query XML
+ * SAX handler for Kumva entries XML
  */
-public class QueryXMLHandler extends DefaultHandler {
+public class EntriesXMLHandler extends DefaultHandler {
 	
 	private String query;
 	private String suggestion;
-	
 	private Entry curEntry;
 	private Revision curRevision;
 	private Meaning curMeaning;
@@ -49,41 +48,46 @@ public class QueryXMLHandler extends DefaultHandler {
 	private List<Tag> curTags;
 	private boolean inMeanings = false;
 	private StringBuilder elementText = null;
-	private List<EntryListener> listeners = new ArrayList<EntryListener>();
-
+	
+	private EntryParsedListener listener = null;
+	
 	/**
-	 * Adds the definition listener
+	 * Contructs a handler with a listener for parsed entries
 	 * @param listener the listener
 	 */
-	public void addListener(EntryListener listener) {
-		listeners.add(listener);
+	public EntriesXMLHandler(EntryParsedListener listener) {
+		this.listener = listener;
 	}
 
+	/**
+	 * @see org.xml.sax.helpers.DefaultHandler#startElement(String, String, String, Attributes)
+	 */
 	@Override
-	public void startElement(String uri, String localName, String qName,
-			Attributes attributes) throws SAXException {
-		if (localName.equals("entries")) {
+	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+		String element = Utils.isEmpty(localName) ? qName : localName;
+		
+		if (element.equals("entries")) {
 			query = attributes.getValue("query");
 			suggestion = attributes.getValue("suggestion");
 		}
-		else if (localName.equals("entry")) {
+		else if (element.equals("entry")) {
 			curEntry = new Entry();
-		} else if (localName.equals("revision")) {
+		} else if (element.equals("revision")) {
 			curRevision = new Revision();
 			curRevision.setWordClass(attributes.getValue("wordclass"));
 			curRevision.setNounClasses(Utils.parseCSVIntegers(attributes.getValue("nounclasses")));
-		} else if (localName.equals("meanings"))
+		} else if (element.equals("meanings"))
 			inMeanings = true;
-		else if (localName.equals("meaning")) {
+		else if (element.equals("meaning")) {
 			int flags = Meaning.parseFlags(attributes.getValue("flags"));
 			curMeaning = new Meaning();
 			curMeaning.setFlags(flags);
-		} else if (localName.equals("relationship")) {
+		} else if (element.equals("relationship")) {
 			curRelationship = attributes.getValue("name");
 			curTags = new ArrayList<Tag>();
-		} else if (localName.equals("tag")) {
+		} else if (element.equals("tag")) {
 			curTags.add(new Tag(attributes.getValue("lang"), attributes.getValue("text")));
-		} else if (localName.equals("example")) {
+		} else if (element.equals("example")) {
 			curExample = new Example();
 		} /*else if (localName.equals("media")) {
 			if ("audio".equals(attributes.getValue("type"))) {
@@ -98,27 +102,31 @@ public class QueryXMLHandler extends DefaultHandler {
 	 * @see org.xml.sax.helpers.DefaultHandler#characters(char[], int, int)
 	 */
 	@Override
-	public void characters(char[] ch, int start, int length)
-			throws SAXException {
+	public void characters(char[] ch, int start, int length) throws SAXException {
 		elementText.append(new String(ch, start, length));
 	}
 
+	/**
+	 * @see org.xml.sax.helpers.DefaultHandler#endElement(String, String, String)
+	 */
 	@Override
-	public void endElement(String uri, String localName, String qName)
-			throws SAXException {
-
-		if (localName.equals("entry")) {
-			entryFinished();
+	public void endElement(String uri, String localName, String qName) throws SAXException {
+		String element = Utils.isEmpty(localName) ? qName : localName;
+		
+		if (element.equals("entry")) {
+			// Notify the listener that the current entry is ready
+			if (listener != null)
+				listener.entryParsed(curEntry);
 		} 
-		else if (localName.equals("revision"))
+		else if (element.equals("revision"))
 			curEntry.addRevision(curRevision);
-		else if (localName.equals("meanings"))
+		else if (element.equals("meanings"))
 			inMeanings = false;
-		else if (localName.equals("meaning")) {
+		else if (element.equals("meaning")) {
 			if (inMeanings)
 				curRevision.addMeaning(curMeaning);
 		} 
-		else if (localName.equals("example")) {
+		else if (element.equals("example")) {
 			curRevision.addExample(curExample);
 		}
 		
@@ -128,35 +136,26 @@ public class QueryXMLHandler extends DefaultHandler {
 			text = null;
 
 		// Read text-only elements
-		if (localName.equals("prefix"))
+		if (element.equals("prefix"))
 			curRevision.setPrefix(text);
-		else if (localName.equals("lemma"))
+		else if (element.equals("lemma"))
 			curRevision.setLemma(text);
-		else if (localName.equals("modifier"))
+		else if (element.equals("modifier"))
 			curRevision.setModifier(text);
-		else if (localName.equals("pronunciation"))
+		else if (element.equals("pronunciation"))
 			curRevision.setPronunciation(text);
-		else if (localName.equals("meaning")) {
+		else if (element.equals("meaning")) {
 			if (inMeanings)
 				curMeaning.setText(text);
 			else
 				curExample.setMeaning(text);
 		} 
-		else if (localName.equals("comment"))
+		else if (element.equals("comment"))
 			curRevision.setComment(text);
-		else if (localName.equals("relationship"))
+		else if (element.equals("relationship"))
 			curRevision.setTags(curRelationship, curTags);
-		else if (localName.equals("usage"))
+		else if (element.equals("usage"))
 			curExample.setUsage(text);
-	}
-
-	/**
-	 * Notifies all listeners that the current entry is ready
-	 */
-	private void entryFinished() {
-		// Notify listeners
-		for (EntryListener listener : listeners)
-			listener.found(curEntry);
 	}
 
 	/**

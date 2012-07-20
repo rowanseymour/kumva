@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <kumva xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://kumva.ijuru.com">
-	<entries query="test">
+	<entries query="xtest" suggestion="test">
 		<entry id="3964">
 			<revision number="1" status="accepted" wordclass="n" nounclasses="7,8" unverified="false">
 				<prefix>iki</prefix>
 				<lemma>zamini</lemma>
 				<modifier>ibi-</modifier>
-				<pronunciation></pronunciation>
+				<pronunciation>ikizamini</pronunciation>
 				<meanings>
 					<meaning flags="">examination, exam, test, evaluation</meaning>
+					<meaning flags="rare,old">just testing</meaning>
 				</meanings>
-				<comment></comment>
+				<comment>This is a comment</comment>
 				<tags>
 					<relationship name="form">
-						<tag lang="rw" text="ibizamini" />
 						<tag lang="rw" text="ikizamini" />
+						<tag lang="rw" text="ibizamini" />
 					</relationship>
 					<relationship name="variant">
 						<tag lang="rw" text="ikizami" />
