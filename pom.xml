@@ -10,6 +10,12 @@
 	
 	<name>Kumva Dictionary</name>
 
+	<scm>
+		<connection>scm:git:git@github.com:rowanseymour/kumva.git</connection>
+		<developerConnection>scm:git:git@github.com:rowanseymour/kumva.git</developerConnection>
+		<url>scm:git:git@github.com:rowanseymour/kumva.git</url>
+	</scm>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
