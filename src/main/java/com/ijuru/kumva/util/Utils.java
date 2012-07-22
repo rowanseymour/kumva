@@ -21,35 +21,15 @@ package com.ijuru.kumva.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * General utility methods
  */
 public class Utils {
-	
-	/**
-	 * Checks if the given string is NULL or empty
-	 * @param str the string to check
-	 * @return true if string is empty
-	 */
-	public static boolean isEmpty(CharSequence str) {
-		return str == null || str.length() == 0;
-	}
-	
-	/**
-	 * Capitalizes the given string
-	 * @param str the string
-	 * @return the capitalized string
-	 */
-	public static String capitalize(String str) {
-		if (str.length() == 0)
-			return "";
-		
-		return Character.toUpperCase(str.charAt(0)) + str.substring(1);
-	}
 	
 	/**
 	 * Converts a ISO-639 language code to a language name
@@ -66,16 +46,7 @@ public class Utils {
 	 * @return the CSV string
 	 */
 	public static String makeCSV(Collection<?> vals) {
-		StringBuilder builder = new StringBuilder();
-		Iterator<?> iter = vals.iterator();
-		while (iter.hasNext()) {
-			builder.append(iter.next().toString());
-		    if (!iter.hasNext()) {
-		       break;                  
-		    }
-		    builder.append(", ");
-		}
-		return builder.toString();
+		return StringUtils.join(vals, ", ");
 	}
 	
 	/**

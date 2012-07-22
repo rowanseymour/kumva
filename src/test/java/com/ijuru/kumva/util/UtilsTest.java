@@ -31,18 +31,6 @@ import com.ijuru.kumva.util.Utils;
  */
 public class UtilsTest extends TestCase {
 	
-	public void test_isEmpty() {
-		assertTrue(Utils.isEmpty(null));
-		assertTrue(Utils.isEmpty(""));
-		assertFalse(Utils.isEmpty(" "));
-		assertFalse(Utils.isEmpty("x"));
-	}
-	
-	public void test_capitalize() {
-		assertEquals("", Utils.capitalize(""));
-		assertEquals("Test", Utils.capitalize("test"));
-	}
-	
 	public void test_getLanguageName() {
 		assertEquals("xx", Utils.getLanguageName("xx"));
 		assertEquals("English", Utils.getLanguageName("en"));

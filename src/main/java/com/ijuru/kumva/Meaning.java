@@ -22,6 +22,8 @@ package com.ijuru.kumva;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.ijuru.kumva.util.Utils;
 
 /**
@@ -92,7 +94,7 @@ public class Meaning {
 	 * @return the bit field
 	 */
 	public static int parseFlags(String str) {
-		if (Utils.isEmpty(str))
+		if (StringUtils.isEmpty(str))
 			return 0;
 		
 		List<String> flagStrs = Utils.parseCSV(str);

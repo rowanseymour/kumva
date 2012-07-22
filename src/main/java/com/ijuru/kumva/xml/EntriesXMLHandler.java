@@ -22,6 +22,7 @@ package com.ijuru.kumva.xml;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -65,7 +66,7 @@ public class EntriesXMLHandler extends DefaultHandler {
 	 */
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException, NumberFormatException {
-		String element = Utils.isEmpty(localName) ? qName : localName;
+		String element = StringUtils.isEmpty(localName) ? qName : localName;
 		
 		if (element.equals("entries")) {
 			query = attributes.getValue("query");
@@ -123,7 +124,7 @@ public class EntriesXMLHandler extends DefaultHandler {
 	 */
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
-		String element = Utils.isEmpty(localName) ? qName : localName;
+		String element = StringUtils.isEmpty(localName) ? qName : localName;
 		
 		if (element.equals("entry")) {
 			// Notify the listener that the current entry is ready
